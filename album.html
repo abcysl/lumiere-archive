@@ -44,7 +44,7 @@
     color: var(--fg-muted);
   }
 
-  /* ——————————————— NAV ——————————————— */
+  /* NAV */
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
@@ -72,243 +72,147 @@
     color: var(--fg);
     line-height: 1.8;
   }
-  .admin-toggle {
-    display: inline-block;
-    margin-top: 10px;
-    background: transparent;
-    border: 1px solid currentColor;
-    color: inherit;
-    padding: 5px 12px;
-    font-family: inherit;
-    font-size: 9px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    cursor: pointer;
-    opacity: 0.55;
-    transition: opacity 0.3s;
-  }
-  .admin-toggle:hover { opacity: 1; }
 
-  /* ——————————————— ADMIN CONTROLS ——————————————— */
+  /* ADMIN BAR + LOGIN + TOAST (shared with index.html) */
   .admin-only { display: none !important; }
-  body.is-admin .admin-only { display: flex !important; }
-
-  .photo .admin-delete {
-    position: absolute;
-    top: 12px; right: 12px;
-    width: 34px; height: 34px;
-    background: rgba(10,10,10,0.85);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: var(--fg);
-    cursor: pointer;
-    z-index: 5;
-    font-size: 13px;
+  body.is-admin .admin-only { display: inline-flex !important; }
+  body.is-admin [data-editable] {
+    cursor: text;
+    transition: background 0.2s;
+    border-radius: 2px;
+  }
+  body.is-admin [data-editable]:hover { background: rgba(178,146,103,0.06); }
+  body.is-admin [data-editable][contenteditable="true"]:focus {
+    outline: 1px dashed var(--accent);
+    outline-offset: 6px;
+    background: rgba(178,146,103,0.10);
+  }
+  .admin-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    padding: 10px 20px;
+    background: rgba(178,146,103,0.95);
+    color: #0a0a0a;
     display: none;
     align-items: center;
-    justify-content: center;
-    transition: background 0.25s, border-color 0.25s;
-  }
-  body.is-admin .photo .admin-delete { display: flex; }
-  .photo .admin-delete:hover {
-    background: rgba(178,146,103,0.95);
-    border-color: var(--accent);
-  }
-
-  .photo-upload {
-    background: var(--bg-soft);
-    border: 1px dashed var(--fg-dim);
-    cursor: pointer;
-    transition: border-color 0.3s;
-    min-height: 320px;
-  }
-  .photo-upload:hover { border-color: var(--fg); }
-  .photo-upload input { display: none; }
-  .photo-upload label {
-    width: 100%; height: 100%;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 10px;
-    color: var(--fg-muted);
-    cursor: pointer;
-    transition: color 0.3s;
-  }
-  .photo-upload:hover label { color: var(--fg); }
-  .photo-upload .plus {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 56px;
-    font-weight: 300;
-    line-height: 1;
-  }
-  .photo-upload .lbl {
-    font-size: 10px;
-    letter-spacing: 0.3em;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
   }
+  body.is-admin .admin-bar { display: flex; }
+  body.is-admin nav { top: 38px; }
+  .admin-bar .ab-actions { display: flex; gap: 16px; align-items: center; }
+  .admin-bar button {
+    background: transparent;
+    border: 1px solid #0a0a0a;
+    color: #0a0a0a;
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .admin-bar button:hover { background: #0a0a0a; color: var(--accent); }
+  .admin-bar .save-status { opacity: 0.8; font-style: italic; text-transform: none; letter-spacing: 0.1em; }
 
-  /* ——————————————— ADMIN PANEL ——————————————— */
-  .admin-panel {
-    max-width: 1400px;
-    margin: 100px auto 0;
-    padding: 28px 80px;
-    border: 1px solid var(--fg-dim);
-    background: rgba(18,18,18,0.4);
+  .login-modal {
+    position: fixed; inset: 0; z-index: 3000;
+    background: rgba(0,0,0,0.92);
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 20px;
   }
-  .admin-panel-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 40px;
-    flex-wrap: wrap;
-  }
-  .admin-cover {
-    display: flex;
-    align-items: center;
-    gap: 18px;
-  }
-  .admin-cover-preview {
-    width: 72px;
-    height: 102px;
+  .login-modal.open { display: flex; }
+  .login-card {
     background: var(--bg-soft);
     border: 1px solid var(--fg-dim);
-    background-size: cover;
-    background-position: center;
-    flex-shrink: 0;
+    padding: 48px;
+    max-width: 380px; width: 100%;
   }
-  .admin-cover-preview.empty::after {
-    content: '—';
-    display: flex;
-    width: 100%; height: 100%;
-    align-items: center;
-    justify-content: center;
-    color: var(--fg-dim);
+  .login-card h3 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 24px;
+    font-size: 28px; font-weight: 300;
+    margin-bottom: 32px;
+    text-align: center;
   }
-  .admin-cover-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .admin-cover-state {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 18px;
-    color: var(--fg);
-  }
-  .admin-panel-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .admin-action {
+  .login-card input {
+    width: 100%;
     background: transparent;
-    border: 1px solid var(--fg-dim);
-    color: var(--fg-muted);
-    padding: 10px 18px;
+    border: none;
+    border-bottom: 1px solid var(--fg-dim);
+    color: var(--fg);
     font-family: inherit;
-    font-size: 9px;
+    font-size: 14px;
+    padding: 12px 0;
+    outline: none;
+    margin-bottom: 24px;
+    letter-spacing: 0.15em;
+  }
+  .login-card input:focus { border-color: var(--accent); }
+  .login-card .login-actions { display: flex; gap: 12px; }
+  .login-card button {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    padding: 14px 20px;
+    font-family: inherit;
+    font-size: 10px;
     letter-spacing: 0.3em;
     text-transform: uppercase;
     cursor: pointer;
     transition: all 0.3s;
   }
-  .admin-action:hover {
-    color: var(--fg);
-    border-color: var(--fg);
-  }
-  .admin-action:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-  }
-  .admin-action:disabled:hover {
-    color: var(--fg-muted);
-    border-color: var(--fg-dim);
-  }
-  body.is-admin .album-header { padding-top: 60px; }
+  .login-card button.primary { background: var(--fg); color: var(--bg); }
+  .login-card button:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .login-card .err { color: #d97a7a; font-size: 11px; margin-top: -12px; margin-bottom: 16px; min-height: 14px; }
 
-  /* ——————————————— COVER CROP MODAL ——————————————— */
-  .cover-modal {
+  .toast {
     position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .cover-modal[hidden] { display: none; }
-  .cover-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(6,6,6,0.94);
-  }
-  .cover-stage {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    padding: 40px;
-  }
-  .stage-inner {
-    position: relative;
-    display: inline-block;
-    line-height: 0;
-  }
-  .stage-img {
-    display: block;
-    max-width: 80vw;
-    max-height: 70vh;
-    user-select: none;
-    -webkit-user-drag: none;
-  }
-  .crop-box {
-    position: absolute;
-    border: 2px solid var(--fg);
-    box-shadow: 0 0 0 9999px rgba(0,0,0,0.6);
-    cursor: move;
-    box-sizing: border-box;
-    touch-action: none;
-  }
-  .crop-box .grid-line {
-    position: absolute;
-    background: rgba(255,255,255,0.28);
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-soft);
+    border: 1px solid var(--fg-dim);
+    color: var(--fg);
+    padding: 14px 22px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 4000;
+    opacity: 0;
+    transition: all 0.3s ease;
     pointer-events: none;
   }
-  .crop-box .grid-line.v1 { left: 33.33%; top: 0; bottom: 0; width: 1px; }
-  .crop-box .grid-line.v2 { left: 66.67%; top: 0; bottom: 0; width: 1px; }
-  .crop-box .grid-line.h1 { top: 33.33%; left: 0; right: 0; height: 1px; }
-  .crop-box .grid-line.h2 { top: 66.67%; left: 0; right: 0; height: 1px; }
-  .stage-hint {
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--fg-muted);
-  }
-  .stage-actions { display: flex; gap: 14px; }
-  .btn-ghost, .btn-primary {
-    background: transparent;
-    border: 1px solid var(--fg-dim);
-    color: var(--fg-muted);
-    padding: 12px 28px;
-    font-family: inherit;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .btn-primary { color: var(--fg); border-color: var(--fg); }
-  .btn-ghost:hover { color: var(--fg); border-color: var(--fg); }
-  .btn-primary:hover { background: var(--fg); color: var(--bg); }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.err { border-color: #d97a7a; color: #d97a7a; }
 
-  @media (max-width: 900px) {
-    .admin-panel { padding: 20px 24px; margin-top: 80px; }
-    .admin-panel-row { flex-direction: column; align-items: flex-start; gap: 20px; }
+  /* COVER */
+  .cover-band {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 200px 80px 0;
+    position: relative;
+  }
+  .cover-preview {
+    aspect-ratio: 220 / 310;
+    max-width: 280px;
+    background: var(--bg-soft);
+    overflow: hidden;
+    position: relative;
+  }
+  .cover-preview img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    filter: brightness(0.92);
   }
 
-  /* ——————————————— ALBUM HEADER ——————————————— */
+  /* HEADER */
   .album-header {
-    padding: 200px 80px 120px;
+    padding: 60px 80px 120px;
     max-width: 1100px;
     margin: 0 auto;
     display: grid;
@@ -337,9 +241,9 @@
     max-width: 440px;
   }
 
-  /* ——————————————— GALLERY (masonry via CSS columns) ——————————————— */
+  /* GALLERY */
   .gallery {
-    padding: 40px 80px 160px;
+    padding: 40px 80px 120px;
     max-width: 1400px;
     margin: 0 auto;
     columns: 3;
@@ -353,6 +257,7 @@
     break-inside: avoid;
     overflow: hidden;
     background: var(--bg-soft);
+    cursor: zoom-in;
   }
   .photo img {
     width: 100%;
@@ -377,11 +282,68 @@
     transition: opacity 0.4s;
   }
   .photo:hover .caption { opacity: 1; }
+  .photo .photo-del {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 32px; height: 32px;
+    background: rgba(10,10,10,0.85);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--fg);
+    cursor: pointer;
+    z-index: 5;
+    display: none;
+    align-items: center; justify-content: center;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  body.is-admin .photo .photo-del { display: flex; }
+  .photo .photo-del:hover { background: var(--accent); border-color: var(--accent); color: #0a0a0a; }
+
+  .photo-upload {
+    background: var(--bg-soft);
+    border: 1px dashed var(--fg-dim);
+    cursor: pointer;
+    transition: border-color 0.3s;
+    min-height: 320px;
+    display: none;
+    align-items: center; justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  body.is-admin .photo-upload { display: flex; }
+  .photo-upload:hover { border-color: var(--fg); }
+  .photo-upload .plus {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 300;
+    color: var(--fg-muted);
+    line-height: 1;
+  }
+  .photo-upload .lbl {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .replace-cover-btn {
+    margin-top: 16px;
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 10px 18px;
+    font-family: inherit;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .replace-cover-btn:hover { background: var(--accent); color: #0a0a0a; }
 
   @media (max-width: 1100px) { .gallery { columns: 2; } }
   @media (max-width: 650px)  { .gallery { columns: 1; } }
 
-  /* ——————————————— FOOTER NAV ——————————————— */
+  /* FOOTER NAV */
   .album-footer {
     border-top: 1px solid var(--fg-dim);
     padding: 60px 80px;
@@ -404,7 +366,8 @@
   }
   .album-footer a:hover { color: var(--fg); }
   .album-footer .prev { justify-self: start; }
-  .album-footer .home { justify-self: center;
+  .album-footer .home {
+    justify-self: center;
     font-family: 'Cormorant Garamond', serif;
     font-size: 14px;
     letter-spacing: 0.2em;
@@ -420,9 +383,7 @@
     color: var(--fg-dim);
     margin-top: 4px;
   }
-  .album-footer .peek {
-    display: flex; flex-direction: column;
-  }
+  .album-footer .peek { display: flex; flex-direction: column; }
 
   footer.site {
     border-top: 1px solid var(--fg-dim);
@@ -442,7 +403,22 @@
   }
   footer.site a:hover { color: var(--fg); }
 
-  /* entrance animation */
+  /* IMAGE BROKEN FALLBACK */
+  .photo.img-broken, .cover-preview.img-broken {
+    aspect-ratio: 4/3;
+    position: relative;
+  }
+  .photo.img-broken::after, .cover-preview.img-broken::after {
+    content: '—';
+    position: absolute;
+    inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--fg-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+  }
+
+  /* fade-up entrance */
   .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 1s ease, transform 1s ease; }
   .fade-up.in { opacity: 1; transform: translateY(0); }
 
@@ -458,66 +434,35 @@
     }
   }
 
-  /* IMAGE BROKEN FALLBACK */
-  .photo.img-broken {
-    aspect-ratio: 4/3;
-    position: relative;
-  }
-  .photo.img-broken::after {
-    content: '—';
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--fg-dim);
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-  }
-
   /* LIGHTBOX */
   .lightbox {
-    position: fixed;
-    inset: 0;
+    position: fixed; inset: 0;
     z-index: 2000;
     background: rgba(0,0,0,0.97);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
     transition: opacity 0.3s ease;
   }
-  .lightbox.open {
-    opacity: 1;
-    visibility: visible;
-  }
+  .lightbox.open { opacity: 1; visibility: visible; }
   .lightbox-img {
-    max-width: 92vw;
-    max-height: 88vh;
+    max-width: 92vw; max-height: 88vh;
     object-fit: contain;
     user-select: none;
     -webkit-user-drag: none;
     box-shadow: 0 30px 80px -20px rgba(0,0,0,0.9);
   }
   .lightbox-caption {
-    position: absolute;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 11px;
-    letter-spacing: 0.3em;
+    position: absolute; bottom: 28px;
+    left: 50%; transform: translateX(-50%);
+    font-size: 11px; letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--fg-muted);
     text-align: center;
   }
   .lightbox-counter {
-    position: absolute;
-    top: 28px;
-    left: 32px;
+    position: absolute; top: 28px; left: 32px;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
-    letter-spacing: 0.2em;
+    font-size: 14px; letter-spacing: 0.2em;
     color: var(--fg-muted);
   }
   .lightbox-btn {
@@ -525,21 +470,14 @@
     background: transparent;
     border: 1px solid var(--fg-dim);
     color: var(--fg);
-    width: 48px;
-    height: 48px;
+    width: 48px; height: 48px;
     cursor: pointer;
     font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    font-size: 22px; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
     transition: border-color 0.3s, background 0.3s;
   }
-  .lightbox-btn:hover {
-    border-color: var(--fg);
-    background: rgba(255,255,255,0.05);
-  }
+  .lightbox-btn:hover { border-color: var(--fg); background: rgba(255,255,255,0.05); }
   .lightbox-close { top: 24px; right: 24px; }
   .lightbox-prev  { left: 24px; top: 50%; transform: translateY(-50%); }
   .lightbox-next  { right: 24px; top: 50%; transform: translateY(-50%); }
@@ -552,14 +490,12 @@
     .lightbox-counter { top: 18px; left: 18px; font-size: 12px; }
   }
 
-  .photo { cursor: zoom-in; }
-
   @media (max-width: 900px) {
     nav { padding: 20px 24px; }
-    .album-header { padding: 140px 24px 60px; grid-template-columns: 1fr; gap: 24px; }
+    .cover-band { padding: 140px 24px 0; }
+    .album-header { padding: 40px 24px 60px; grid-template-columns: 1fr; gap: 24px; }
     .album-header h1 { font-size: 56px; }
     .gallery { padding: 20px 24px 80px; }
-    .gallery .photo { grid-column: span 12 !important; aspect-ratio: 4/3 !important; }
     .album-footer { padding: 40px 24px; grid-template-columns: 1fr; text-align: center; }
     .album-footer .prev, .album-footer .home, .album-footer .next { justify-self: center; }
     footer.site { flex-direction: column; gap: 16px; padding: 24px; }
@@ -568,39 +504,51 @@
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="brand">Lumière Archive</a>
-  <div class="meta">
-    Album <span id="navIdx">01</span> / <span id="navTotal">09</span><br />
-    <span id="navChapter">Chapter One</span>
-    <button class="admin-toggle" id="adminToggle" style="display:none">Log in</button>
+<div class="admin-bar" id="adminBar">
+  <span>Admin Mode</span>
+  <div class="ab-actions">
+    <span class="save-status" id="saveStatus"></span>
+    <button id="saveAllBtn" type="button">Save changes</button>
+    <button id="logoutBtn" type="button">Log out</button>
   </div>
-</nav>
+</div>
 
-<div class="admin-panel admin-only" id="adminPanel">
-  <div class="admin-panel-row">
-    <div class="admin-cover">
-      <div class="admin-cover-preview empty" id="coverPreview"></div>
-      <div class="admin-cover-meta">
-        <span class="label">Cover Image</span>
-        <span class="admin-cover-state" id="coverState">Default</span>
-      </div>
-    </div>
-    <div class="admin-panel-actions">
-      <input type="file" id="coverInput" accept="image/*" hidden />
-      <button class="admin-action" id="coverBtn">Change cover</button>
-      <button class="admin-action" id="coverClearBtn" disabled>Remove cover</button>
-      <button class="admin-action" id="resetBtn">Reset photos</button>
+<div class="login-modal" id="loginModal" role="dialog" aria-modal="true" aria-label="Admin login">
+  <div class="login-card">
+    <h3>Admin</h3>
+    <input id="loginPw" type="password" placeholder="Password" autocomplete="current-password" />
+    <div class="err" id="loginErr"></div>
+    <div class="login-actions">
+      <button type="button" id="loginCancel">Cancel</button>
+      <button type="button" id="loginSubmit" class="primary">Sign In</button>
     </div>
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
+<nav>
+  <a href="index.html" class="brand">Lumière Archive</a>
+  <div class="meta">
+    Album <span id="navIdx">01</span> / <span id="navTotal">09</span><br />
+    <span id="navChapter">—</span>
+  </div>
+</nav>
+
+<section class="cover-band">
+  <div class="cover-preview" id="coverPreview">
+    <img id="coverImg" src="" alt="Cover" loading="eager"
+         onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />
+  </div>
+  <button type="button" class="replace-cover-btn admin-only" data-edit="album-cover" data-album-id="0">Replace cover</button>
+</section>
+
 <header class="album-header fade-up">
   <div>
-    <div class="chapter" id="chapterLabel">Chapter One</div>
-    <h1 id="albumTitle">—</h1>
+    <div class="chapter" id="chapterLabel" data-editable="album-chapter">—</div>
+    <h1 id="albumTitle" data-editable="album-title">—</h1>
   </div>
-  <p class="desc" id="albumDesc">—</p>
+  <p class="desc" id="albumDesc" data-editable="album-desc">—</p>
 </header>
 
 <section class="gallery" id="gallery"></section>
@@ -608,39 +556,13 @@
 <div class="album-footer">
   <a id="prevLink" class="prev">
     <span class="dir">←</span>
-    <span class="peek">
-      <span>Previous</span>
-      <span class="sub" id="prevTitle">—</span>
-    </span>
+    <span class="peek"><span>Previous</span><span class="sub" id="prevTitle">—</span></span>
   </a>
   <a href="index.html" class="home">Return to Archive</a>
   <a id="nextLink" class="next">
-    <span class="peek">
-      <span>Next</span>
-      <span class="sub" id="nextTitle">—</span>
-    </span>
+    <span class="peek"><span>Next</span><span class="sub" id="nextTitle">—</span></span>
     <span class="dir">→</span>
   </a>
-</div>
-
-<div class="cover-modal" id="coverModal" hidden>
-  <div class="cover-backdrop"></div>
-  <div class="cover-stage">
-    <div class="stage-inner">
-      <img class="stage-img" alt="" />
-      <div class="crop-box">
-        <div class="grid-line v1"></div>
-        <div class="grid-line v2"></div>
-        <div class="grid-line h1"></div>
-        <div class="grid-line h2"></div>
-      </div>
-    </div>
-    <div class="stage-hint">Drag the box to choose your cover · Card ratio 220 × 310</div>
-    <div class="stage-actions">
-      <button class="btn-ghost" id="coverCancel">Cancel</button>
-      <button class="btn-primary" id="coverConfirm">Set as cover</button>
-    </div>
-  </div>
 </div>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" hidden>
@@ -653,341 +575,167 @@
 </div>
 
 <footer class="site">
-  <div>© MMXXVI — Lumière Archive</div>
+  <div>© MMXXVI — Lumière Archive · <a href="#" id="adminTrigger" style="color:var(--fg-dim);text-decoration:none;cursor:default" aria-label="Admin">·</a></div>
   <div>
-    <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
-    <a href="mailto:abcysl@gmail.com" aria-label="Email">Email</a>
+    <a id="footerInsta" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+    <a id="footerEmail" href="mailto:abcysl@gmail.com" aria-label="Email">Email</a>
   </div>
 </footer>
 
-<script src="albums.js"></script>
 <script src="admin.js"></script>
 <script>
-  Admin.mountAuthButton();
-
+  let CONTENT = null;
+  let id = 0;
   const params = new URLSearchParams(location.search);
-  const albums = window.ALBUMS || [];
-  const total = albums.length;
-  let id = parseInt(params.get('id') || '0', 10);
-  if (isNaN(id) || id < 0 || id >= total) id = 0;
 
-  const album = albums[id];
-  const prev = (id - 1 + total) % total;
-  const next = (id + 1) % total;
-
-  const pad = (n) => String(n + 1).padStart(2, '0');
-  document.getElementById('navIdx').textContent = pad(id);
-  document.getElementById('navTotal').textContent = String(total).padStart(2, '0');
-  document.getElementById('navChapter').textContent = album.chapter || '';
-  document.getElementById('chapterLabel').textContent = album.chapter || '';
-  document.getElementById('albumTitle').textContent = album.title;
-  document.getElementById('albumDesc').textContent = album.description || '';
-  document.title = `${album.title} — Lumière Archive`;
-
-  document.getElementById('prevLink').href = `album.html?id=${prev}`;
-  document.getElementById('nextLink').href = `album.html?id=${next}`;
-  document.getElementById('prevTitle').textContent = albums[prev].title;
-  document.getElementById('nextTitle').textContent = albums[next].title;
-
-  // ——————————————— GALLERY (masonry, admin-aware) ———————————————
   const gallery = document.getElementById('gallery');
+  const coverImg = document.getElementById('coverImg');
+  const coverPreview = document.getElementById('coverPreview');
+  const titleEl = document.getElementById('albumTitle');
+  const descEl  = document.getElementById('albumDesc');
+  const chEl    = document.getElementById('chapterLabel');
+  const navIdx  = document.getElementById('navIdx');
+  const navTot  = document.getElementById('navTotal');
+  const navCh   = document.getElementById('navChapter');
+  const prevLink = document.getElementById('prevLink');
+  const nextLink = document.getElementById('nextLink');
+  const prevTitle = document.getElementById('prevTitle');
+  const nextTitle = document.getElementById('nextTitle');
+  const replaceCoverBtn = document.querySelector('[data-edit="album-cover"]');
+  const footerInsta = document.getElementById('footerInsta');
+  const footerEmail = document.getElementById('footerEmail');
 
-  function renderGallery() {
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  function renderAll(content) {
+    CONTENT = content;
+    const albums = content.albums || [];
+    const total = albums.length;
+    let parsed = parseInt(params.get('id') || '0', 10);
+    if (isNaN(parsed) || parsed < 0 || parsed >= total) parsed = 0;
+    id = parsed;
+    window.__ALBUM_ID = id;
+
+    const album = albums[id];
+    const prev = (id - 1 + total) % total;
+    const next = (id + 1) % total;
+    const pad = (n) => String(n + 1).padStart(2, '0');
+
+    coverImg.src = album.cover || (album.photos[0] && album.photos[0].url) || '';
+    coverImg.alt = `${album.title} — cover`;
+    coverPreview.classList.remove('img-broken');
+    if (replaceCoverBtn) replaceCoverBtn.dataset.albumId = String(id);
+
+    titleEl.textContent = album.title;
+    descEl.textContent  = album.description || '';
+    chEl.textContent    = album.chapter || '';
+    navIdx.textContent  = pad(id);
+    navTot.textContent  = String(total).padStart(2, '0');
+    navCh.textContent   = album.chapter || '';
+    document.title = `${album.title} — Lumière Archive`;
+
+    prevLink.href = `album.html?id=${prev}`;
+    nextLink.href = `album.html?id=${next}`;
+    prevTitle.textContent = albums[prev].title;
+    nextTitle.textContent = albums[next].title;
+
+    if (content.profile) {
+      if (content.profile.instagram) footerInsta.href = content.profile.instagram;
+      if (content.profile.email)     footerEmail.href = `mailto:${content.profile.email}`;
+    }
+
+    renderGallery(album);
+    setMeta('meta[property="og:title"]', `${album.title} — Lumière Archive`);
+    setMeta('meta[property="og:description"]', album.description || 'A chapter from Lumière Archive.');
+    setMeta('meta[name="description"]',       album.description || 'A chapter from Lumière Archive.');
+    setOgImage(album.cover || (album.photos[0] && album.photos[0].url) || '');
+
+    if (window.Admin) Admin.applyEditableState();
+  }
+
+  function setMeta(sel, val) {
+    const el = document.querySelector(sel);
+    if (el) el.setAttribute('content', val);
+  }
+  function setOgImage(url) {
+    if (!url) return;
+    let el = document.querySelector('meta[property="og:image"]');
+    if (!el) { el = document.createElement('meta'); el.setAttribute('property', 'og:image'); document.head.appendChild(el); }
+    el.setAttribute('content', url);
+    let t = document.querySelector('meta[name="twitter:image"]');
+    if (!t) { t = document.createElement('meta'); t.setAttribute('name', 'twitter:image'); document.head.appendChild(t); }
+    t.setAttribute('content', url);
+  }
+
+  function renderGallery(album) {
     gallery.innerHTML = '';
-    const photos = Admin.getAlbumPhotos(id);
-
-    photos.forEach(([src, caption], i) => {
+    (album.photos || []).forEach((photo, i) => {
       const div = document.createElement('div');
       div.className = 'photo fade-up';
       div.dataset.idx = String(i);
-      const safeCaption = (caption || album.title || 'Untitled').replace(/"/g, '&quot;');
+      const cap = (photo.caption || album.title || '').replace(/"/g, '&quot;');
       div.innerHTML = `
-        <img src="${src}" alt="${safeCaption}" loading="lazy" decoding="async"
+        <img src="${escapeHtml(photo.url)}" alt="${cap}" loading="lazy" decoding="async"
              onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />
-        <span class="caption">${caption || ''}</span>
-        <button class="admin-delete" data-idx="${i}" title="Delete photo" aria-label="Delete photo">✕</button>
+        <span class="caption">${escapeHtml(photo.caption || '')}</span>
+        <button class="photo-del" type="button" data-del-photo="${i}" data-album-id="${id}" aria-label="Delete photo">✕</button>
       `;
       div.addEventListener('click', (e) => {
-        if (e.target.closest('.admin-delete')) return;
+        if (e.target.closest('.photo-del')) return;
         openLightbox(i);
       });
       gallery.appendChild(div);
     });
 
-    // Upload tile (shown only when is-admin)
     const upload = document.createElement('div');
-    upload.className = 'photo photo-upload admin-only';
-    upload.innerHTML = `
-      <input type="file" id="uploadInput" multiple accept="image/*" />
-      <label for="uploadInput">
-        <span class="plus">+</span>
-        <span class="lbl">Add Photos</span>
-      </label>
-    `;
+    upload.className = 'photo-upload';
+    upload.dataset.addPhotos = String(id);
+    upload.innerHTML = `<span class="plus">+</span><span class="lbl">Add Photos</span>`;
     gallery.appendChild(upload);
-
-    // Wire delete buttons
-    gallery.querySelectorAll('.admin-delete').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (!Admin.isLoggedIn()) return;
-        const idx = parseInt(btn.dataset.idx, 10);
-        if (confirm('Delete this photo?')) {
-          Admin.removePhoto(id, idx);
-          renderGallery();
-        }
-      });
-    });
-
-    // Wire upload
-    const input = gallery.querySelector('#uploadInput');
-    if (input) {
-      input.addEventListener('change', async (e) => {
-        const files = Array.from(e.target.files || []);
-        if (!files.length) return;
-        try {
-          for (const file of files) {
-            const dataUrl = await Admin.compressImage(file);
-            const name = file.name.replace(/\.[^.]+$/, '');
-            Admin.addPhoto(id, dataUrl, name);
-          }
-          renderGallery();
-        } catch (err) {
-          alert('Upload failed: ' + (err && err.message ? err.message : err) +
-                '\n(Storage quota may be exceeded — try fewer or smaller photos.)');
-        }
-        e.target.value = '';
-      });
-    }
 
     observeFades();
   }
 
-  // ——————————————— fade-in ———————————————
   let io = null;
   function observeFades() {
     if (!io) {
       io = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-          if (e.isIntersecting) {
-            e.target.classList.add('in');
-            io.unobserve(e.target);
-          }
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
         });
       }, { threshold: 0.08 });
     }
-    document.querySelectorAll('.fade-up:not(.in)').forEach(el => io.observe(el));
+    document.querySelectorAll('.fade-up:not(.in)').forEach((el) => io.observe(el));
   }
-
-  // Reset album photos
-  document.getElementById('resetBtn').addEventListener('click', () => {
-    if (confirm(`Reset "${album.title}" photos to default?\nYour uploaded photos will be removed. (Cover image kept.)`)) {
-      // Keep cover, clear photos override
-      const cover = Admin.getAlbumCover(id);
-      Admin.resetAlbum(id);
-      if (cover) Admin.setAlbumCover(id, cover);
-      renderGallery();
-    }
-  });
-
-  // ——————————————— COVER MANAGEMENT ———————————————
-  const CARD_RATIO = 220 / 310;
-  const OUT_W = 440, OUT_H = 620;
-
-  function refreshCover() {
-    const cover = Admin.getAlbumCover(id);
-    const preview = document.getElementById('coverPreview');
-    const state = document.getElementById('coverState');
-    const clearBtn = document.getElementById('coverClearBtn');
-    if (cover) {
-      preview.style.backgroundImage = `url(${cover})`;
-      preview.classList.remove('empty');
-      state.textContent = 'Custom';
-      clearBtn.disabled = false;
-    } else {
-      preview.style.backgroundImage = 'none';
-      preview.classList.add('empty');
-      state.textContent = 'Default';
-      clearBtn.disabled = true;
-    }
-  }
-
-  function loadImage(src) {
-    return new Promise((res, rej) => {
-      const img = new Image();
-      img.onload = () => res(img);
-      img.onerror = rej;
-      img.src = src;
-    });
-  }
-
-  function fileToDataUrl(file) {
-    return new Promise((res, rej) => {
-      const r = new FileReader();
-      r.onload = () => res(r.result);
-      r.onerror = rej;
-      r.readAsDataURL(file);
-    });
-  }
-
-  function renderCover(img, sx, sy, sw, sh) {
-    const canvas = document.createElement('canvas');
-    canvas.width = OUT_W;
-    canvas.height = OUT_H;
-    canvas.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, OUT_W, OUT_H);
-    return canvas.toDataURL('image/jpeg', 0.88);
-  }
-
-  function openCropModal(img, rect) {
-    return new Promise((resolve) => {
-      const modal = document.getElementById('coverModal');
-      const stageImg = modal.querySelector('.stage-img');
-      const cropBox = modal.querySelector('.crop-box');
-      const confirmBtn = document.getElementById('coverConfirm');
-      const cancelBtn = document.getElementById('coverCancel');
-
-      modal.hidden = false;
-      stageImg.src = img.src;
-
-      const onLoaded = () => {
-        const imgRect = stageImg.getBoundingClientRect();
-        const scale = imgRect.width / img.naturalWidth;
-        const maxX = img.naturalWidth - rect.w;
-        const maxY = img.naturalHeight - rect.h;
-
-        const updateBox = () => {
-          cropBox.style.left = (rect.x * scale) + 'px';
-          cropBox.style.top = (rect.y * scale) + 'px';
-          cropBox.style.width = (rect.w * scale) + 'px';
-          cropBox.style.height = (rect.h * scale) + 'px';
-        };
-        updateBox();
-
-        let startRX = 0, startRY = 0;
-        let dragStartX = 0, dragStartY = 0;
-        let dragging = false;
-
-        cropBox.onpointerdown = (e) => {
-          dragging = true;
-          dragStartX = e.clientX;
-          dragStartY = e.clientY;
-          startRX = rect.x;
-          startRY = rect.y;
-          cropBox.setPointerCapture(e.pointerId);
-          e.preventDefault();
-        };
-        cropBox.onpointermove = (e) => {
-          if (!dragging) return;
-          const dx = (e.clientX - dragStartX) / scale;
-          const dy = (e.clientY - dragStartY) / scale;
-          rect.x = Math.max(0, Math.min(maxX, startRX + dx));
-          rect.y = Math.max(0, Math.min(maxY, startRY + dy));
-          updateBox();
-        };
-        cropBox.onpointerup = () => { dragging = false; };
-        cropBox.onpointercancel = () => { dragging = false; };
-      };
-
-      if (stageImg.complete && stageImg.naturalWidth > 0) onLoaded();
-      else stageImg.onload = onLoaded;
-
-      const cleanup = () => {
-        modal.hidden = true;
-        stageImg.onload = null;
-        cropBox.onpointerdown = null;
-        cropBox.onpointermove = null;
-        cropBox.onpointerup = null;
-        cropBox.onpointercancel = null;
-        confirmBtn.onclick = null;
-        cancelBtn.onclick = null;
-      };
-      confirmBtn.onclick = () => { cleanup(); resolve({ x: rect.x, y: rect.y, w: rect.w, h: rect.h }); };
-      cancelBtn.onclick  = () => { cleanup(); resolve(null); };
-    });
-  }
-
-  async function handleCoverFile(file) {
-    try {
-      const dataUrl = await fileToDataUrl(file);
-      const img = await loadImage(dataUrl);
-      const iW = img.naturalWidth, iH = img.naturalHeight;
-      const imgRatio = iW / iH;
-
-      let cropW, cropH;
-      if (imgRatio > CARD_RATIO) { cropH = iH; cropW = Math.round(iH * CARD_RATIO); }
-      else                        { cropW = iW; cropH = Math.round(iW / CARD_RATIO); }
-
-      // Warn if image is smaller than output resolution
-      if (cropW < OUT_W) {
-        if (!confirm(`This image is smaller than the target cover size (${OUT_W}×${OUT_H}). Quality may suffer. Continue?`)) return;
-      }
-
-      // If already matches card aspect, skip the modal
-      if (Math.abs(imgRatio - CARD_RATIO) < 0.01) {
-        const out = renderCover(img, 0, 0, iW, iH);
-        Admin.setAlbumCover(id, out);
-        refreshCover();
-        return;
-      }
-
-      const initialRect = {
-        x: Math.floor((iW - cropW) / 2),
-        y: Math.floor((iH - cropH) / 2),
-        w: cropW,
-        h: cropH,
-      };
-      const picked = await openCropModal(img, initialRect);
-      if (!picked) return;
-
-      const out = renderCover(img, picked.x, picked.y, picked.w, picked.h);
-      Admin.setAlbumCover(id, out);
-      refreshCover();
-    } catch (err) {
-      alert('Cover update failed: ' + (err && err.message ? err.message : err));
-    }
-  }
-
-  document.getElementById('coverBtn').addEventListener('click', () => {
-    document.getElementById('coverInput').click();
-  });
-  document.getElementById('coverInput').addEventListener('change', async (e) => {
-    const file = e.target.files && e.target.files[0];
-    e.target.value = '';
-    if (file) await handleCoverFile(file);
-  });
-  document.getElementById('coverClearBtn').addEventListener('click', () => {
-    if (confirm('Remove custom cover and use the default card image?')) {
-      Admin.clearAlbumCover(id);
-      refreshCover();
-    }
-  });
-
-  refreshCover();
-  renderGallery();
-  observeFades();
 
   // ——————————————— LIGHTBOX ———————————————
   const lightbox = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lbImg');
-  const lbCap = document.getElementById('lbCaption');
-  const lbCnt = document.getElementById('lbCounter');
+  const lbImg  = document.getElementById('lbImg');
+  const lbCap  = document.getElementById('lbCaption');
+  const lbCnt  = document.getElementById('lbCounter');
   const lbClose = document.getElementById('lbClose');
   const lbPrev  = document.getElementById('lbPrev');
   const lbNext  = document.getElementById('lbNext');
   let lbIdx = -1;
   let lastFocus = null;
 
-  function currentPhotos() { return Admin.getAlbumPhotos(id); }
+  function currentPhotos() {
+    if (!CONTENT) return [];
+    const a = CONTENT.albums[id];
+    return (a && a.photos) || [];
+  }
 
   function showLightbox(i) {
     const photos = currentPhotos();
     if (!photos.length) return;
     lbIdx = ((i % photos.length) + photos.length) % photos.length;
-    const [src, caption] = photos[lbIdx];
-    lbImg.src = src;
-    lbImg.alt = caption || album.title || '';
-    lbCap.textContent = caption || '';
-    lbCnt.textContent = `${String(lbIdx + 1).padStart(2, '0')} / ${String(photos.length).padStart(2, '0')}`;
+    const p = photos[lbIdx];
+    lbImg.src = p.url;
+    lbImg.alt = p.caption || '';
+    lbCap.textContent = p.caption || '';
+    lbCnt.textContent = `${String(lbIdx + 1).padStart(2,'0')} / ${String(photos.length).padStart(2,'0')}`;
   }
   function openLightbox(i) {
     lastFocus = document.activeElement;
@@ -1004,13 +752,10 @@
     if (lastFocus && lastFocus.focus) lastFocus.focus();
     lbIdx = -1;
   }
-
   lbClose.addEventListener('click', closeLightbox);
   lbPrev.addEventListener('click', () => showLightbox(lbIdx - 1));
   lbNext.addEventListener('click', () => showLightbox(lbIdx + 1));
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
 
   document.addEventListener('keydown', (e) => {
     if (lbIdx >= 0) {
@@ -1019,43 +764,30 @@
       else if (e.key === 'ArrowRight') showLightbox(lbIdx + 1);
       return;
     }
-    // Album-level navigation when lightbox closed and not in a field
     const t = e.target;
-    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
-    if (e.key === 'ArrowLeft')  window.location.href = `album.html?id=${prev}`;
-    else if (e.key === 'ArrowRight') window.location.href = `album.html?id=${next}`;
-    else if (e.key === 'Escape') window.location.href = 'index.html';
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+    if (CONTENT) {
+      const total = CONTENT.albums.length;
+      const prev = (id - 1 + total) % total;
+      const next = (id + 1) % total;
+      if (e.key === 'ArrowLeft')  window.location.href = `album.html?id=${prev}`;
+      else if (e.key === 'ArrowRight') window.location.href = `album.html?id=${next}`;
+      else if (e.key === 'Escape') window.location.href = 'index.html';
+    }
   });
 
-  // Update OG meta with this album's cover
-  const ogImg = (album.photos && album.photos[0] && album.photos[0][0]) || '';
-  const ogDesc = album.description || 'A chapter from Lumière Archive.';
-  function setMeta(selector, value) {
-    const el = document.querySelector(selector);
-    if (el) el.setAttribute('content', value);
-  }
-  setMeta('meta[property="og:title"]', `${album.title} — Lumière Archive`);
-  setMeta('meta[property="og:description"]', ogDesc);
-  setMeta('meta[name="description"]', ogDesc);
-  setMeta('meta[name="twitter:title"]', `${album.title} — Lumière Archive`);
-  setMeta('meta[name="twitter:description"]', ogDesc);
-  if (ogImg) {
-    let ogImgEl = document.querySelector('meta[property="og:image"]');
-    if (!ogImgEl) {
-      ogImgEl = document.createElement('meta');
-      ogImgEl.setAttribute('property', 'og:image');
-      document.head.appendChild(ogImgEl);
-    }
-    ogImgEl.setAttribute('content', ogImg);
-
-    let twImgEl = document.querySelector('meta[name="twitter:image"]');
-    if (!twImgEl) {
-      twImgEl = document.createElement('meta');
-      twImgEl.setAttribute('name', 'twitter:image');
-      document.head.appendChild(twImgEl);
-    }
-    twImgEl.setAttribute('content', ogImg);
-  }
+  // ——————————————— BOOT ———————————————
+  Admin.init({
+    onContentChange: (next) => renderAll(next),
+    getContent: () => CONTENT,
+  });
+  fetch('/api/content')
+    .then((r) => r.json())
+    .then(renderAll)
+    .catch((err) => {
+      console.error('content fetch failed', err);
+      Admin.toast('Failed to load content. Refresh to retry.', true);
+    });
 </script>
 
 </body>

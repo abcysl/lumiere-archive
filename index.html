@@ -489,6 +489,215 @@
   }
   footer a:hover { color: var(--fg); }
 
+  /* CAREER */
+  .career-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--fg-dim);
+  }
+  .career-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 200px auto;
+    align-items: baseline;
+    gap: 32px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--fg-dim);
+  }
+  .career-row .yr {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--fg);
+  }
+  .career-row .ttl { font-size: 14px; color: var(--fg); }
+  .career-row .pl  { font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-muted); text-align: right; }
+  .career-row .row-del { display: none; }
+  body.is-admin .career-row .row-del {
+    display: inline-flex;
+    background: transparent;
+    border: 1px solid var(--fg-dim);
+    color: var(--fg-muted);
+    width: 28px; height: 28px;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  body.is-admin .career-row .row-del:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  body.is-admin .career-row [contenteditable="true"]:focus {
+    outline: 1px dashed var(--accent);
+    outline-offset: 4px;
+  }
+  @media (max-width: 700px) {
+    .career-row { grid-template-columns: 60px 1fr; gap: 12px; }
+    .career-row .pl { grid-column: 1 / -1; text-align: left; }
+    .career-row .row-del { grid-column: 1 / -1; justify-self: end; }
+  }
+
+  /* ADMIN UI */
+  .admin-only { display: none !important; }
+  body.is-admin .admin-only { display: inline-flex !important; }
+  body.is-admin .archive-card .admin-only { display: flex !important; }
+  body.is-admin [data-editable] {
+    cursor: text;
+    transition: background 0.2s;
+    border-radius: 2px;
+  }
+  body.is-admin [data-editable]:hover {
+    background: rgba(178,146,103,0.06);
+  }
+  body.is-admin [data-editable][contenteditable="true"]:focus {
+    outline: 1px dashed var(--accent);
+    outline-offset: 6px;
+    background: rgba(178,146,103,0.10);
+  }
+
+  .admin-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    padding: 10px 20px;
+    background: rgba(178,146,103,0.95);
+    color: #0a0a0a;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+  }
+  body.is-admin .admin-bar { display: flex; }
+  body.is-admin nav { top: 38px; }
+  .admin-bar .ab-actions { display: flex; gap: 16px; align-items: center; }
+  .admin-bar button {
+    background: transparent;
+    border: 1px solid #0a0a0a;
+    color: #0a0a0a;
+    padding: 6px 14px;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .admin-bar button:hover { background: #0a0a0a; color: var(--accent); }
+  .admin-bar .save-status { opacity: 0.8; font-style: italic; text-transform: none; letter-spacing: 0.1em; }
+
+  .edit-img-btn {
+    position: absolute;
+    bottom: 12px; left: 12px;
+    background: rgba(10,10,10,0.85);
+    border: 1px solid var(--accent);
+    color: var(--fg);
+    padding: 8px 14px;
+    font-family: inherit;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    z-index: 5;
+  }
+  .edit-img-btn:hover { background: var(--accent); color: #0a0a0a; }
+  .about-image, .archive-card { position: relative; }
+
+  .admin-action {
+    background: transparent;
+    border: 1px solid var(--fg-dim);
+    color: var(--fg-muted);
+    padding: 12px 24px;
+    font-family: inherit;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 24px;
+    transition: all 0.3s;
+  }
+  .admin-action:hover { color: var(--fg); border-color: var(--fg); }
+
+  /* LOGIN MODAL */
+  .login-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0,0,0,0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .login-modal.open { display: flex; }
+  .login-card {
+    background: var(--bg-soft);
+    border: 1px solid var(--fg-dim);
+    padding: 48px;
+    max-width: 380px;
+    width: 100%;
+  }
+  .login-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  .login-card input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--fg-dim);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 12px 0;
+    outline: none;
+    margin-bottom: 24px;
+    letter-spacing: 0.15em;
+  }
+  .login-card input:focus { border-color: var(--accent); }
+  .login-card .login-actions { display: flex; gap: 12px; }
+  .login-card button {
+    flex: 1;
+    background: transparent;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    padding: 14px 20px;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .login-card button.primary { background: var(--fg); color: var(--bg); }
+  .login-card button:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .login-card .err { color: #d97a7a; font-size: 11px; margin-top: -12px; margin-bottom: 16px; min-height: 14px; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-soft);
+    border: 1px solid var(--fg-dim);
+    color: var(--fg);
+    padding: 14px 22px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    z-index: 4000;
+    opacity: 0;
+    transition: all 0.3s ease;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  .toast.err { border-color: #d97a7a; color: #d97a7a; }
+
   /* ACCESSIBILITY */
   *:focus-visible {
     outline: 2px solid var(--accent);
@@ -593,12 +802,34 @@
 </head>
 <body>
 
+<div class="admin-bar" id="adminBar">
+  <span>Admin Mode</span>
+  <div class="ab-actions">
+    <span class="save-status" id="saveStatus"></span>
+    <button id="saveAllBtn" type="button">Save changes</button>
+    <button id="logoutBtn" type="button">Log out</button>
+  </div>
+</div>
+
+<div class="login-modal" id="loginModal" role="dialog" aria-modal="true" aria-label="Admin login">
+  <div class="login-card">
+    <h3>Admin</h3>
+    <input id="loginPw" type="password" placeholder="Password" autocomplete="current-password" />
+    <div class="err" id="loginErr"></div>
+    <div class="login-actions">
+      <button type="button" id="loginCancel">Cancel</button>
+      <button type="button" id="loginSubmit" class="primary">Sign In</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
 <nav>
   <div class="brand">Lumière Archive</div>
   <div class="meta">
     Volume 01<br />
     Selected Works
-    <button class="admin-toggle" id="adminToggle" style="display:none">Log in</button>
   </div>
 </nav>
 
@@ -629,35 +860,27 @@
     <span class="label">The Photographer</span>
   </div>
   <div class="about">
-    <div class="about-image">
-      <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800&q=80" alt="" />
+    <div class="about-image" id="aboutImageWrap">
+      <img id="aboutImage" src="" alt="Profile" loading="lazy"
+           onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />
+      <button class="edit-img-btn admin-only" data-edit="profile-image" type="button">Replace photo</button>
     </div>
     <div class="about-text">
-      <h3>A study of light, stillness,<br />and quiet moments.</h3>
-      <p>
-        Based between Seoul and the coast, I've spent the last decade documenting
-        landscapes that pause between silence and motion. My work lives in the hour
-        before sunrise and the minute after dusk.
-      </p>
-      <p>
-        Available for editorial, brand campaigns, and private commissions worldwide.
-      </p>
-      <div class="about-stats">
-        <div class="stat">
-          <span class="num">12</span>
-          <span class="lbl">Years</span>
-        </div>
-        <div class="stat">
-          <span class="num">80+</span>
-          <span class="lbl">Publications</span>
-        </div>
-        <div class="stat">
-          <span class="num">27</span>
-          <span class="lbl">Countries</span>
-        </div>
-      </div>
+      <h3 id="aboutTagline" data-editable="tagline"></h3>
+      <div id="aboutBio" data-editable="bio"></div>
+      <div class="about-stats" id="aboutStats"></div>
     </div>
   </div>
+</section>
+
+<!-- ——————————————— CAREER ——————————————— -->
+<section class="block" id="career">
+  <div class="block-header">
+    <h2>Career</h2>
+    <span class="label">Selected Work</span>
+  </div>
+  <ol class="career-list" id="careerList"></ol>
+  <button class="admin-action admin-only" id="addCareerBtn" type="button">+ Add entry</button>
 </section>
 
 <!-- ——————————————— CONTACT ——————————————— -->
@@ -689,105 +912,179 @@
 </section>
 
 <footer>
-  <div>© MMXXVI — Lumière Archive</div>
+  <div>© MMXXVI — Lumière Archive · <a href="#" id="adminTrigger" style="color:var(--fg-dim);text-decoration:none;cursor:default" aria-label="Admin">·</a></div>
   <div>
-    <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
-    <a href="mailto:abcysl@gmail.com" aria-label="Email">Email</a>
+    <a id="footerInsta" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+    <a id="footerEmail" href="mailto:abcysl@gmail.com" aria-label="Email">Email</a>
   </div>
 </footer>
 
-<script src="albums.js"></script>
 <script src="admin.js"></script>
 <script>
-  Admin.mountAuthButton();
+  // ——————————————— STATE ———————————————
+  let CONTENT = null;
+  let ALBUM_COUNT = 1;
+  let cards = [];
 
-  const ALBUMS = window.ALBUMS || [];
-  const ALBUM_COUNT = ALBUMS.length || 1;
-  const albumTotal = ALBUM_COUNT;
-
-  // ——————————————— RENDER CAROUSEL CARDS FROM ALBUMS ———————————————
   const carousel = document.getElementById('carousel');
-  ALBUMS.forEach((album, i) => {
-    const cover = Admin.getAlbumCover(i)
-      || (album.photos && album.photos[0] && album.photos[0][0])
-      || '';
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.setAttribute('role', 'button');
-    card.setAttribute('tabindex', '-1');
-    card.setAttribute('aria-label', `${album.chapter || ''} — ${album.title}`);
-    card.innerHTML = `<img src="${cover}" alt="${album.title} — cover" loading="lazy" decoding="async" onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />`;
-    carousel.appendChild(card);
-  });
-  const cards = carousel.querySelectorAll('.card');
-
-  // ——————————————— RENDER ARCHIVE GRID ———————————————
   const archiveGrid = document.getElementById('archiveGrid');
-  ALBUMS.forEach((album, i) => {
-    const cover = Admin.getAlbumCover(i)
-      || (album.photos && album.photos[0] && album.photos[0][0])
-      || '';
-    const a = document.createElement('a');
-    a.className = 'archive-card';
-    a.href = `album.html?id=${i}`;
-    a.setAttribute('aria-label', `${album.chapter || ''} — ${album.title}`);
-    a.innerHTML = `
-      <img src="${cover}" alt="${album.title} — cover" loading="lazy" decoding="async"
-           onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />
-      <div class="meta">
-        <div class="ch">${album.chapter || ''}</div>
-        <div class="ttl">${album.title}</div>
+  const aboutImage = document.getElementById('aboutImage');
+  const aboutTagline = document.getElementById('aboutTagline');
+  const aboutBio = document.getElementById('aboutBio');
+  const aboutStats = document.getElementById('aboutStats');
+  const careerList = document.getElementById('careerList');
+  const footerInsta = document.getElementById('footerInsta');
+  const footerEmail = document.getElementById('footerEmail');
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
+
+  // ——————————————— RENDER ———————————————
+  function renderAll(content) {
+    CONTENT = content;
+    ALBUM_COUNT = content.albums.length || 1;
+    renderCarousel();
+    renderArchive();
+    renderAbout();
+    renderCareer();
+    renderFooter();
+    if (window.Admin) Admin.applyEditableState();
+    initCarousel();
+  }
+
+  function renderCarousel() {
+    carousel.innerHTML = '';
+    CONTENT.albums.forEach((album, i) => {
+      const cover = album.cover || (album.photos[0] && album.photos[0].url) || '';
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '-1');
+      card.setAttribute('aria-label', `${album.chapter || ''} — ${album.title}`);
+      card.innerHTML = `<img src="${escapeHtml(cover)}" alt="${escapeHtml(album.title)} — cover" loading="lazy" decoding="async" onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />`;
+      carousel.appendChild(card);
+    });
+    cards = carousel.querySelectorAll('.card');
+  }
+
+  function renderArchive() {
+    archiveGrid.innerHTML = '';
+    CONTENT.albums.forEach((album, i) => {
+      const cover = album.cover || (album.photos[0] && album.photos[0].url) || '';
+      const a = document.createElement('a');
+      a.className = 'archive-card';
+      a.href = `album.html?id=${i}`;
+      a.setAttribute('aria-label', `${album.chapter || ''} — ${album.title}`);
+      a.innerHTML = `
+        <img src="${escapeHtml(cover)}" alt="${escapeHtml(album.title)} — cover" loading="lazy" decoding="async"
+             onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />
+        <div class="meta">
+          <div class="ch">${escapeHtml(album.chapter || '')}</div>
+          <div class="ttl">${escapeHtml(album.title)}</div>
+        </div>
+      `;
+      archiveGrid.appendChild(a);
+    });
+  }
+
+  function renderAbout() {
+    const p = CONTENT.profile;
+    aboutImage.src = p.image || '';
+    aboutTagline.innerHTML = escapeHtml(p.tagline || '').replace(/\n/g, '<br />');
+    aboutBio.innerHTML = (Array.isArray(p.bio) ? p.bio : String(p.bio || '').split('\n\n'))
+      .map((para) => `<p data-editable="bio-para">${escapeHtml(para)}</p>`).join('');
+    aboutStats.innerHTML = (p.stats || []).map((s, i) => `
+      <div class="stat">
+        <span class="num" data-editable="stat-num" data-idx="${i}">${escapeHtml(s.num)}</span>
+        <span class="lbl" data-editable="stat-lbl" data-idx="${i}">${escapeHtml(s.lbl)}</span>
       </div>
-    `;
-    archiveGrid.appendChild(a);
-  });
+    `).join('');
+  }
+
+  function renderCareer() {
+    careerList.innerHTML = '';
+    (CONTENT.career || []).forEach((c, i) => {
+      const li = document.createElement('li');
+      li.className = 'career-row';
+      li.dataset.idx = String(i);
+      li.innerHTML = `
+        <span class="yr"  data-editable="career-yr"  data-idx="${i}">${escapeHtml(c.year)}</span>
+        <span class="ttl" data-editable="career-ttl" data-idx="${i}">${escapeHtml(c.title)}</span>
+        <span class="pl"  data-editable="career-pl"  data-idx="${i}">${escapeHtml(c.place || '')}</span>
+        <button class="row-del" type="button" data-del-career="${i}" aria-label="Delete entry">✕</button>
+      `;
+      careerList.appendChild(li);
+    });
+  }
+
+  function renderFooter() {
+    const p = CONTENT.profile;
+    if (p.instagram) { footerInsta.href = p.instagram; }
+    if (p.email)     { footerEmail.href = `mailto:${p.email}`; }
+  }
 
   // ——————————————— CONTACT FORM → MAILTO ———————————————
-  const TO_EMAIL = 'abcysl@gmail.com';
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
       e.preventDefault();
+      const to = (CONTENT && CONTENT.profile && CONTENT.profile.email) || 'abcysl@gmail.com';
       const name = contactForm['name'].value.trim();
       const email = contactForm['email'].value.trim();
       const msg = contactForm['message'].value.trim();
       const subject = encodeURIComponent(`[Lumière Archive] ${name || 'Inquiry'}`);
-      const body = encodeURIComponent(
-        `${msg}\n\n— ${name}\n${email}`
-      );
-      window.location.href = `mailto:${TO_EMAIL}?subject=${subject}&body=${body}`;
+      const body = encodeURIComponent(`${msg}\n\n— ${name}\n${email}`);
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
     });
   }
 
+  // ——————————————— BOOT ———————————————
+  Admin.init({
+    onContentChange: (next) => renderAll(next),
+    getContent: () => CONTENT,
+  });
+  fetch('/api/content')
+    .then((r) => r.json())
+    .then(renderAll)
+    .catch((err) => {
+      console.error('content fetch failed', err);
+      Admin.toast('Failed to load content. Refresh to retry.', true);
+    });
+
   // ——————————————— CYLINDRICAL CAROUSEL ———————————————
-  const N = cards.length;
   const RADIUS = 900;
-  const ANGULAR_SPACING = (Math.PI * 2) / N;
   const ROTATION_SPEED = 0.00007;
   const CLICK_THRESHOLD = 6;
   const DRAG_SENSITIVITY = 0.005;
   const SNAP_DURATION = 700;
+  const HOVER_SCALE = 1.1;
+  const HOVER_Z     = 100;
+  const LERP        = 0.16;
 
+  const hero = document.querySelector('.hero');
+  const descPanel = document.getElementById('descPanel');
+  const descChapter = descPanel.querySelector('.desc-chapter');
+  const descTitle   = descPanel.querySelector('.desc-title');
+  const descBody    = descPanel.querySelector('.desc-body');
+
+  let N = 0;
+  let ANGULAR_SPACING = 0;
+  let scales  = [];
+  let hoverZs = [];
   let rotation = 0;
   let lastTs = null;
   let centerIdx = 0;
   let hoveredIdx = -1;
-
-  // per-card smoothed hover state
-  const scales   = new Array(N).fill(1);
-  const hoverZs  = new Array(N).fill(0);
-  const HOVER_SCALE = 1.1;
-  const HOVER_Z     = 100;
-  const LERP        = 0.16;   // per-frame approach rate for hover in/out
-
   let dragging = false;
   let dragMoved = false;
   let dragPointerId = null;
   let dragStartX = 0;
   let dragStartRotation = 0;
-
+  let dragStartCard = -1;
   let snapping = false;
   let snapToken = 0;
+  let tickStarted = false;
 
   function normalize(a) {
     a = ((a + Math.PI) % (Math.PI * 2));
@@ -796,16 +1093,9 @@
   }
   const isPaused = () => dragging || snapping || hoveredIdx >= 0;
 
-  // ——————————————— DESC PANEL ———————————————
-  const hero = document.querySelector('.hero');
-  const descPanel = document.getElementById('descPanel');
-  const descChapter = descPanel.querySelector('.desc-chapter');
-  const descTitle   = descPanel.querySelector('.desc-title');
-  const descBody    = descPanel.querySelector('.desc-body');
-
   function updateDescPanel() {
-    if (hoveredIdx >= 0 && window.ALBUMS) {
-      const album = window.ALBUMS[hoveredIdx % albumTotal];
+    if (hoveredIdx >= 0 && CONTENT && CONTENT.albums) {
+      const album = CONTENT.albums[hoveredIdx % CONTENT.albums.length];
       descChapter.textContent = album.chapter || '';
       descTitle.textContent   = album.title || '';
       descBody.textContent    = album.description || '';
@@ -821,6 +1111,7 @@
     if (lastTs == null) lastTs = ts;
     const dt = ts - lastTs;
     lastTs = ts;
+    if (N === 0) { requestAnimationFrame(tick); return; }
     if (!isPaused()) rotation -= ROTATION_SPEED * dt;
 
     let minAbs = Infinity;
@@ -836,14 +1127,13 @@
       const baseOpacity = Math.max(0, cosT * 1.05);
       const baseBrightness = 0.45 + 0.55 * Math.max(0, cosT);
 
-      // Hover lerp
       const isHovered = i === effectiveHover;
       const targetScale = isHovered ? HOVER_SCALE : 1;
       const targetZ     = isHovered ? HOVER_Z     : 0;
       scales[i]  += (targetScale - scales[i])  * LERP;
       hoverZs[i] += (targetZ     - hoverZs[i]) * LERP;
 
-      const hoverT  = (scales[i] - 1) / (HOVER_SCALE - 1);       // 0 → 1
+      const hoverT  = (scales[i] - 1) / (HOVER_SCALE - 1);
       const opacity = baseOpacity + (1 - baseOpacity) * hoverT;
       const brightness = baseBrightness + (1.05 - baseBrightness) * hoverT;
 
@@ -857,7 +1147,7 @@
       if (absT < minAbs) { minAbs = absT; newCenter = i; }
     });
 
-    if (newCenter !== centerIdx) {
+    if (newCenter !== centerIdx && cards[centerIdx] && cards[newCenter]) {
       cards[centerIdx].classList.remove('is-center');
       cards[newCenter].classList.add('is-center');
       centerIdx = newCenter;
@@ -866,7 +1156,6 @@
     requestAnimationFrame(tick);
   }
 
-  // ——————————————— SNAP ———————————————
   function snapToCard(idx) {
     const target = -idx * ANGULAR_SPACING;
     const start  = rotation;
@@ -888,117 +1177,94 @@
     requestAnimationFrame(step);
   }
 
-  // ——————————————— HOVER (per-card) ———————————————
-  cards.forEach((card, i) => {
-    card.addEventListener('pointerenter', (e) => {
-      if (dragging) return;
-      if (e.pointerType === 'touch') return;  // no hover for touch
-      if (hoveredIdx !== i) {
-        hoveredIdx = i;
-        updateDescPanel();
+  function initCarousel() {
+    N = cards.length;
+    if (N === 0) return;
+    ANGULAR_SPACING = (Math.PI * 2) / N;
+    scales  = new Array(N).fill(1);
+    hoverZs = new Array(N).fill(0);
+    centerIdx = Math.min(centerIdx, N - 1);
+    hoveredIdx = -1;
+
+    cards.forEach((card, i) => {
+      card.addEventListener('pointerenter', (e) => {
+        if (dragging) return;
+        if (e.pointerType === 'touch') return;
+        if (hoveredIdx !== i) { hoveredIdx = i; updateDescPanel(); }
+      });
+      card.addEventListener('pointerleave', () => {
+        if (hoveredIdx === i) { hoveredIdx = -1; updateDescPanel(); }
+      });
+    });
+
+    if (!tickStarted) {
+      tickStarted = true;
+      requestAnimationFrame(tick);
+      attachHeroEvents();
+    }
+  }
+
+  function attachHeroEvents() {
+    hero.addEventListener('pointerdown', (e) => {
+      if (e.target.closest('.admin-bar')) return;
+      dragging = true;
+      dragMoved = false;
+      dragPointerId = e.pointerId;
+      dragStartX = e.clientX;
+      dragStartRotation = rotation;
+      const cardEl = e.target.closest('.card');
+      dragStartCard = cardEl ? Array.prototype.indexOf.call(cards, cardEl) : -1;
+      if (hoveredIdx !== -1) { hoveredIdx = -1; updateDescPanel(); }
+      snapToken++; snapping = false;
+      hero.setPointerCapture(e.pointerId);
+      document.body.classList.add('dragging');
+      e.preventDefault();
+    });
+    hero.addEventListener('pointermove', (e) => {
+      if (!dragging || e.pointerId !== dragPointerId) return;
+      const dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > CLICK_THRESHOLD) dragMoved = true;
+      rotation = dragStartRotation + dx * DRAG_SENSITIVITY;
+    });
+    const endDrag = (e) => {
+      if (!dragging || e.pointerId !== dragPointerId) return;
+      const wasClick = !dragMoved;
+      const startCard = dragStartCard;
+      dragging = false; dragPointerId = null; dragStartCard = -1;
+      document.body.classList.remove('dragging');
+      if (e.pointerType !== 'touch') {
+        const elAt = document.elementFromPoint(e.clientX, e.clientY);
+        const cardAt = elAt ? elAt.closest('.card') : null;
+        const newIdx = cardAt ? Array.prototype.indexOf.call(cards, cardAt) : -1;
+        if (newIdx !== hoveredIdx) { hoveredIdx = newIdx; updateDescPanel(); }
+      }
+      if (wasClick && startCard >= 0) {
+        if (startCard === centerIdx) {
+          window.location.href = `album.html?id=${startCard % ALBUM_COUNT}`;
+        } else { snapToCard(startCard); }
+      }
+    };
+    hero.addEventListener('pointerup', endDrag);
+    hero.addEventListener('pointercancel', endDrag);
+
+    document.addEventListener('keydown', (e) => {
+      const heroRect = hero.getBoundingClientRect();
+      if (heroRect.bottom < 0 || heroRect.top > window.innerHeight) return;
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      if (N === 0) return;
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        snapToCard((centerIdx - 1 + N) % N);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        snapToCard((centerIdx + 1) % N);
+      } else if (e.key === 'Enter' && centerIdx >= 0) {
+        e.preventDefault();
+        window.location.href = `album.html?id=${centerIdx % ALBUM_COUNT}`;
       }
     });
-    card.addEventListener('pointerleave', () => {
-      if (hoveredIdx === i) {
-        hoveredIdx = -1;
-        updateDescPanel();
-      }
-    });
-  });
-
-  // ——————————————— DRAG + CLICK (hero-wide) ———————————————
-  // Drag anywhere inside .hero rotates the cylinder.
-  // If pointerdown lands on a card and there's no drag, it counts as a click.
-  let dragStartCard = -1;
-
-  hero.addEventListener('pointerdown', (e) => {
-    // Don't hijack nav/admin controls
-    if (e.target.closest('.admin-toggle')) return;
-
-    dragging = true;
-    dragMoved = false;
-    dragPointerId = e.pointerId;
-    dragStartX = e.clientX;
-    dragStartRotation = rotation;
-
-    const cardEl = e.target.closest('.card');
-    dragStartCard = cardEl ? Array.prototype.indexOf.call(cards, cardEl) : -1;
-
-    // Clear hover during drag (pointer capture suppresses enter/leave)
-    if (hoveredIdx !== -1) {
-      hoveredIdx = -1;
-      updateDescPanel();
-    }
-
-    snapToken++;               // cancel any running snap
-    snapping = false;
-    hero.setPointerCapture(e.pointerId);
-    document.body.classList.add('dragging');
-    e.preventDefault();
-  });
-
-  hero.addEventListener('pointermove', (e) => {
-    if (!dragging || e.pointerId !== dragPointerId) return;
-    const dx = e.clientX - dragStartX;
-    if (Math.abs(dx) > CLICK_THRESHOLD) dragMoved = true;
-    rotation = dragStartRotation + dx * DRAG_SENSITIVITY;
-  });
-
-  const endDrag = (e) => {
-    if (!dragging || e.pointerId !== dragPointerId) return;
-    const wasClick = !dragMoved;
-    const startCard = dragStartCard;
-    dragging = false;
-    dragPointerId = null;
-    dragStartCard = -1;
-    document.body.classList.remove('dragging');
-
-    // Re-sync hover based on current cursor position
-    if (e.pointerType !== 'touch') {
-      const elAt = document.elementFromPoint(e.clientX, e.clientY);
-      const cardAt = elAt ? elAt.closest('.card') : null;
-      const newIdx = cardAt ? Array.prototype.indexOf.call(cards, cardAt) : -1;
-      if (newIdx !== hoveredIdx) {
-        hoveredIdx = newIdx;
-        updateDescPanel();
-      }
-    }
-
-    if (wasClick && startCard >= 0) {
-      if (startCard === centerIdx) {
-        window.location.href = `album.html?id=${startCard % ALBUM_COUNT}`;
-      } else {
-        snapToCard(startCard);
-      }
-    }
-  };
-  hero.addEventListener('pointerup', endDrag);
-  hero.addEventListener('pointercancel', endDrag);
-
-  // ——————————————— KEYBOARD NAVIGATION ———————————————
-  document.addEventListener('keydown', (e) => {
-    // only when hero is in viewport / focused area
-    const heroRect = hero.getBoundingClientRect();
-    if (heroRect.bottom < 0 || heroRect.top > window.innerHeight) return;
-    // ignore when typing in inputs
-    const t = e.target;
-    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
-
-    if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      const next = (centerIdx - 1 + N) % N;
-      snapToCard(next);
-    } else if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      const next = (centerIdx + 1) % N;
-      snapToCard(next);
-    } else if (e.key === 'Enter' && centerIdx >= 0) {
-      e.preventDefault();
-      window.location.href = `album.html?id=${centerIdx % ALBUM_COUNT}`;
-    }
-  });
-
-  requestAnimationFrame(tick);
+  }
 </script>
 
 </body>
