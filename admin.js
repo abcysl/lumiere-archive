@@ -415,6 +415,12 @@
         document.body.classList.add('is-admin');
       }
     } catch {}
+
+    // URL-triggered login: /?admin or /#admin
+    const url = new URL(location.href);
+    if (!isAdmin && (url.hash === '#admin' || url.searchParams.has('admin'))) {
+      openLoginModal();
+    }
   }
 
   function pickFile(accept, multiple) {

@@ -677,6 +677,15 @@
   .login-card button:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
   .login-card .err { color: #d97a7a; font-size: 11px; margin-top: -12px; margin-bottom: 16px; min-height: 14px; }
 
+  /* ADMIN TRIGGER LINK in footer */
+  .admin-trigger {
+    color: var(--fg-muted) !important;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .admin-trigger:hover { color: var(--accent) !important; }
+
   /* TOAST */
   .toast {
     position: fixed;
@@ -912,7 +921,7 @@
 </section>
 
 <footer>
-  <div>© MMXXVI — Lumière Archive · <a href="#" id="adminTrigger" style="color:var(--fg-dim);text-decoration:none;cursor:default" aria-label="Admin">·</a></div>
+  <div>© MMXXVI — Lumière Archive · <a href="#" id="adminTrigger" class="admin-trigger" aria-label="Admin login">Admin</a></div>
   <div>
     <a id="footerInsta" href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
     <a id="footerEmail" href="mailto:abcysl@gmail.com" aria-label="Email">Email</a>
