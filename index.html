@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LUMIÈRE ARCHIVE — Portfolio</title>
+<meta name="description" content="Lumière Archive — a personal photographic archive. Landscapes, light, and quiet moments across nine chapters." />
+<meta name="theme-color" content="#0a0a0a" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Lumière Archive — Portfolio" />
+<meta property="og:description" content="A personal photographic archive — landscapes, light, and quiet moments across nine chapters." />
+<meta property="og:image" content="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=85" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Lumière Archive — Portfolio" />
+<meta name="twitter:description" content="A personal photographic archive — landscapes, light, and quiet moments." />
+<meta name="twitter:image" content="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&q=85" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-soft: #121212;
+    --fg: #e8e4dc;
+    --fg-muted: #7a7468;
+    --fg-dim: #3a3632;
+    --accent: #b29267;
+    --card-bg: #1a1a1a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', system-ui, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  .serif {
+    font-family: 'Cormorant Garamond', 'Times New Roman', serif;
+    font-weight: 400;
+  }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  /* ——————————————————————————— NAV ——————————————————————————— */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    mix-blend-mode: difference;
+  }
+  nav .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fg);
+  }
+  nav .meta {
+    text-align: right;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fg);
+    line-height: 1.8;
+  }
+  .admin-toggle {
+    display: inline-block;
+    margin-top: 10px;
+    background: transparent;
+    border: 1px solid currentColor;
+    color: inherit;
+    padding: 5px 12px;
+    font-family: inherit;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.3s;
+  }
+  .admin-toggle:hover { opacity: 1; }
+
+  /* ——————————————————————————— HERO ——————————————————————————— */
+  .hero {
+    height: 100vh;
+    min-height: 700px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 120px 0 80px;
+    perspective: 2400px;
+    perspective-origin: 50% 50%;
+    cursor: grab;
+    touch-action: none;
+  }
+  .hero:active { cursor: grabbing; }
+
+  .carousel {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    transform-style: preserve-3d;
+  }
+
+  .card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 220px;
+    height: 310px;
+    margin-top: -155px;
+    margin-left: -110px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.05);
+    overflow: hidden;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.9);
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+  }
+  .card.is-center { cursor: pointer; }
+  body.dragging, body.dragging .card { cursor: grabbing !important; }
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+  .card::after {
+    content: 'View →';
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0;
+    padding: 44px 0 22px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 20%, transparent);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--fg);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+  }
+  .card.is-center:hover::after { opacity: 1; }
+
+  .hero-hint {
+    position: absolute;
+    bottom: 60px;
+    left: 0; right: 0;
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .hero-hint em {
+    font-style: normal;
+    color: var(--fg-muted);
+  }
+  .hero.showing-desc .hero-hint { opacity: 0; }
+
+  .desc-panel {
+    position: absolute;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    max-width: 580px;
+    width: 90%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .desc-panel.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .desc-panel .desc-chapter {
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 16px;
+  }
+  .desc-panel .desc-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: 44px;
+    line-height: 1;
+    color: var(--fg);
+    margin-bottom: 22px;
+    letter-spacing: -0.005em;
+  }
+  .desc-panel .desc-body {
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--fg-muted);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .hero-footer {
+    margin-top: 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .hero-footer .label { color: var(--fg-muted); }
+  .access-form {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    border-bottom: 1px solid var(--fg-dim);
+    padding-bottom: 10px;
+    min-width: 340px;
+  }
+  .access-form input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 0;
+    outline: none;
+  }
+  .access-form input::placeholder { color: var(--fg-dim); }
+  .access-form button {
+    background: transparent;
+    border: none;
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  .access-form button:hover { color: var(--accent); }
+
+  /* ——————————————————————————— SECTIONS ——————————————————————————— */
+  section.block {
+    padding: 140px 80px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 80px;
+    border-bottom: 1px solid var(--fg-dim);
+    padding-bottom: 24px;
+  }
+  .block-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  /* WORK GRID */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+  }
+  .work-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .work-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.6s;
+    filter: brightness(0.85);
+  }
+  .work-item:hover img {
+    transform: scale(1.04);
+    filter: brightness(1);
+  }
+  .work-item .caption {
+    position: absolute;
+    bottom: 20px; left: 20px;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fg);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .work-item:hover .caption { opacity: 1; }
+  .work-grid.swapping .work-item { opacity: 0; transform: translateY(20px); }
+  .work-grid .work-item {
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .work-grid .work-item:nth-child(1) { transition-delay: 0ms; }
+  .work-grid .work-item:nth-child(2) { transition-delay: 60ms; }
+  .work-grid .work-item:nth-child(3) { transition-delay: 120ms; }
+  .work-grid .work-item:nth-child(4) { transition-delay: 180ms; }
+  .work-grid .work-item:nth-child(5) { transition-delay: 240ms; }
+  .work-grid .work-item:nth-child(6) { transition-delay: 300ms; }
+  .work-grid .work-item:nth-child(7) { transition-delay: 360ms; }
+
+  .w-1 { grid-column: span 7; aspect-ratio: 4/3; }
+  .w-2 { grid-column: span 5; aspect-ratio: 3/4; }
+  .w-3 { grid-column: span 4; aspect-ratio: 3/4; }
+  .w-4 { grid-column: span 4; aspect-ratio: 3/4; }
+  .w-5 { grid-column: span 4; aspect-ratio: 3/4; }
+  .w-6 { grid-column: span 6; aspect-ratio: 4/3; }
+  .w-7 { grid-column: span 6; aspect-ratio: 4/3; }
+
+  /* ABOUT */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-image {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+  }
+  .about-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: grayscale(0.3) brightness(0.9);
+  }
+  .about-text h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 32px;
+  }
+  .about-text p {
+    font-size: 14px;
+    color: var(--fg-muted);
+    margin-bottom: 20px;
+    max-width: 520px;
+  }
+  .about-stats {
+    margin-top: 48px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    max-width: 520px;
+  }
+  .stat .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: var(--fg);
+    display: block;
+  }
+  .stat .lbl {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* CONTACT */
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+  }
+  .contact-left h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 300;
+    line-height: 1;
+    margin-bottom: 32px;
+  }
+  .contact-left p {
+    color: var(--fg-muted);
+    font-size: 14px;
+    max-width: 380px;
+  }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  .contact-form label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 8px;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--fg-dim);
+    color: var(--fg);
+    font-family: inherit;
+    font-size: 14px;
+    padding: 8px 0;
+    outline: none;
+    transition: border-color 0.3s;
+    resize: none;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: var(--accent);
+  }
+  .contact-form button {
+    align-self: flex-start;
+    margin-top: 16px;
+    background: transparent;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    padding: 16px 40px;
+    font-family: inherit;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .contact-form button:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--fg-dim);
+    padding: 40px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+  footer a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    margin-left: 32px;
+    transition: color 0.3s;
+  }
+  footer a:hover { color: var(--fg); }
+
+  /* ACCESSIBILITY */
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+  }
+  .img-broken {
+    background: linear-gradient(135deg, #1a1a1a 25%, #222 50%, #1a1a1a 75%);
+    background-size: 200% 200%;
+  }
+  .img-broken::after {
+    content: '—';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--fg-dim);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+  }
+
+  /* ARCHIVE INDEX */
+  .archive-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .archive-card {
+    position: relative;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: var(--bg-soft);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .archive-card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+                filter 0.6s;
+    filter: brightness(0.7);
+  }
+  .archive-card:hover img,
+  .archive-card:focus-visible img {
+    transform: scale(1.04);
+    filter: brightness(1);
+  }
+  .archive-card .meta {
+    position: absolute;
+    inset: 0;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 55%);
+    color: var(--fg);
+    pointer-events: none;
+  }
+  .archive-card .ch {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+    margin-bottom: 8px;
+  }
+  .archive-card .ttl {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    line-height: 1.05;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    section.block { padding: 80px 24px; }
+    .block-header h2 { font-size: 32px; }
+    .work-grid { grid-template-columns: 1fr; }
+    .w-1, .w-2, .w-3, .w-4, .w-5, .w-6, .w-7 {
+      grid-column: span 1; aspect-ratio: 4/3;
+    }
+    .about, .contact-inner { grid-template-columns: 1fr; gap: 40px; }
+    .contact-left h2 { font-size: 48px; }
+    .card { width: 180px; height: 260px; margin-top: -130px; margin-left: -90px; }
+    .archive-grid { grid-template-columns: 1fr; gap: 16px; }
+    .archive-card { aspect-ratio: 4/3; }
+    footer { flex-direction: column; gap: 16px; padding: 24px; }
+  }
+  @media (min-width: 901px) and (max-width: 1100px) {
+    .archive-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">Lumière Archive</div>
+  <div class="meta">
+    Volume 01<br />
+    Selected Works
+    <button class="admin-toggle" id="adminToggle" style="display:none">Log in</button>
+  </div>
+</nav>
+
+<!-- ——————————————— HERO: 3D CYLINDRICAL CAROUSEL ——————————————— -->
+<section class="hero">
+  <div class="carousel" id="carousel" role="region" aria-label="Featured chapters carousel" tabindex="0"></div>
+  <div class="desc-panel" id="descPanel">
+    <div class="desc-chapter"></div>
+    <div class="desc-title"></div>
+    <div class="desc-body"></div>
+  </div>
+  <div class="hero-hint"><em>Drag</em> or use <em>← →</em> to rotate · click the centered card to enter</div>
+</section>
+
+<!-- ——————————————— ARCHIVE INDEX ——————————————— -->
+<section class="block" id="archive">
+  <div class="block-header">
+    <h2>The Archive</h2>
+    <span class="label">Nine Chapters</span>
+  </div>
+  <div class="archive-grid" id="archiveGrid"></div>
+</section>
+
+<!-- ——————————————— ABOUT ——————————————— -->
+<section class="block" id="about">
+  <div class="block-header">
+    <h2>About</h2>
+    <span class="label">The Photographer</span>
+  </div>
+  <div class="about">
+    <div class="about-image">
+      <img src="https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800&q=80" alt="" />
+    </div>
+    <div class="about-text">
+      <h3>A study of light, stillness,<br />and quiet moments.</h3>
+      <p>
+        Based between Seoul and the coast, I've spent the last decade documenting
+        landscapes that pause between silence and motion. My work lives in the hour
+        before sunrise and the minute after dusk.
+      </p>
+      <p>
+        Available for editorial, brand campaigns, and private commissions worldwide.
+      </p>
+      <div class="about-stats">
+        <div class="stat">
+          <span class="num">12</span>
+          <span class="lbl">Years</span>
+        </div>
+        <div class="stat">
+          <span class="num">80+</span>
+          <span class="lbl">Publications</span>
+        </div>
+        <div class="stat">
+          <span class="num">27</span>
+          <span class="lbl">Countries</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ——————————————— CONTACT ——————————————— -->
+<section class="block" id="contact">
+  <div class="contact-inner">
+    <div class="contact-left">
+      <h2>Let's<br />make something.</h2>
+      <p>
+        For collaborations, print inquiries, or just a hello — leave a note and
+        your default mail client will open with the message ready to send.
+      </p>
+    </div>
+    <form class="contact-form" id="contactForm">
+      <div>
+        <label for="cf-name">Name</label>
+        <input id="cf-name" name="name" type="text" required />
+      </div>
+      <div>
+        <label for="cf-email">Email</label>
+        <input id="cf-email" name="email" type="email" required />
+      </div>
+      <div>
+        <label for="cf-msg">Message</label>
+        <textarea id="cf-msg" name="message" rows="4" required></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div>© MMXXVI — Lumière Archive</div>
+  <div>
+    <a href="https://instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">Instagram</a>
+    <a href="mailto:abcysl@gmail.com" aria-label="Email">Email</a>
+  </div>
+</footer>
+
+<script src="albums.js"></script>
+<script src="admin.js"></script>
+<script>
+  Admin.mountAuthButton();
+
+  const ALBUMS = window.ALBUMS || [];
+  const ALBUM_COUNT = ALBUMS.length || 1;
+  const albumTotal = ALBUM_COUNT;
+
+  // ——————————————— RENDER CAROUSEL CARDS FROM ALBUMS ———————————————
+  const carousel = document.getElementById('carousel');
+  ALBUMS.forEach((album, i) => {
+    const cover = Admin.getAlbumCover(i)
+      || (album.photos && album.photos[0] && album.photos[0][0])
+      || '';
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '-1');
+    card.setAttribute('aria-label', `${album.chapter || ''} — ${album.title}`);
+    card.innerHTML = `<img src="${cover}" alt="${album.title} — cover" loading="lazy" decoding="async" onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />`;
+    carousel.appendChild(card);
+  });
+  const cards = carousel.querySelectorAll('.card');
+
+  // ——————————————— RENDER ARCHIVE GRID ———————————————
+  const archiveGrid = document.getElementById('archiveGrid');
+  ALBUMS.forEach((album, i) => {
+    const cover = Admin.getAlbumCover(i)
+      || (album.photos && album.photos[0] && album.photos[0][0])
+      || '';
+    const a = document.createElement('a');
+    a.className = 'archive-card';
+    a.href = `album.html?id=${i}`;
+    a.setAttribute('aria-label', `${album.chapter || ''} — ${album.title}`);
+    a.innerHTML = `
+      <img src="${cover}" alt="${album.title} — cover" loading="lazy" decoding="async"
+           onerror="this.style.display='none';this.parentElement.classList.add('img-broken')" />
+      <div class="meta">
+        <div class="ch">${album.chapter || ''}</div>
+        <div class="ttl">${album.title}</div>
+      </div>
+    `;
+    archiveGrid.appendChild(a);
+  });
+
+  // ——————————————— CONTACT FORM → MAILTO ———————————————
+  const TO_EMAIL = 'abcysl@gmail.com';
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = contactForm['name'].value.trim();
+      const email = contactForm['email'].value.trim();
+      const msg = contactForm['message'].value.trim();
+      const subject = encodeURIComponent(`[Lumière Archive] ${name || 'Inquiry'}`);
+      const body = encodeURIComponent(
+        `${msg}\n\n— ${name}\n${email}`
+      );
+      window.location.href = `mailto:${TO_EMAIL}?subject=${subject}&body=${body}`;
+    });
+  }
+
+  // ——————————————— CYLINDRICAL CAROUSEL ———————————————
+  const N = cards.length;
+  const RADIUS = 900;
+  const ANGULAR_SPACING = (Math.PI * 2) / N;
+  const ROTATION_SPEED = 0.00007;
+  const CLICK_THRESHOLD = 6;
+  const DRAG_SENSITIVITY = 0.005;
+  const SNAP_DURATION = 700;
+  const ALBUM_COUNT = (window.ALBUMS || []).length || 1;
+
+  let rotation = 0;
+  let lastTs = null;
+  let centerIdx = 0;
+  let hoveredIdx = -1;
+
+  // per-card smoothed hover state
+  const scales   = new Array(N).fill(1);
+  const hoverZs  = new Array(N).fill(0);
+  const HOVER_SCALE = 1.1;
+  const HOVER_Z     = 100;
+  const LERP        = 0.16;   // per-frame approach rate for hover in/out
+
+  let dragging = false;
+  let dragMoved = false;
+  let dragPointerId = null;
+  let dragStartX = 0;
+  let dragStartRotation = 0;
+
+  let snapping = false;
+  let snapToken = 0;
+
+  function normalize(a) {
+    a = ((a + Math.PI) % (Math.PI * 2));
+    if (a < 0) a += Math.PI * 2;
+    return a - Math.PI;
+  }
+  const isPaused = () => dragging || snapping || hoveredIdx >= 0;
+
+  // ——————————————— DESC PANEL ———————————————
+  const hero = document.querySelector('.hero');
+  const descPanel = document.getElementById('descPanel');
+  const descChapter = descPanel.querySelector('.desc-chapter');
+  const descTitle   = descPanel.querySelector('.desc-title');
+  const descBody    = descPanel.querySelector('.desc-body');
+
+  function updateDescPanel() {
+    if (hoveredIdx >= 0 && window.ALBUMS) {
+      const album = window.ALBUMS[hoveredIdx % albumTotal];
+      descChapter.textContent = album.chapter || '';
+      descTitle.textContent   = album.title || '';
+      descBody.textContent    = album.description || '';
+      descPanel.classList.add('visible');
+      hero.classList.add('showing-desc');
+    } else {
+      descPanel.classList.remove('visible');
+      hero.classList.remove('showing-desc');
+    }
+  }
+
+  function tick(ts) {
+    if (lastTs == null) lastTs = ts;
+    const dt = ts - lastTs;
+    lastTs = ts;
+    if (!isPaused()) rotation -= ROTATION_SPEED * dt;
+
+    let minAbs = Infinity;
+    let newCenter = centerIdx;
+    const effectiveHover = dragging ? -1 : hoveredIdx;
+
+    cards.forEach((card, i) => {
+      const theta = normalize(i * ANGULAR_SPACING + rotation);
+      const x = RADIUS * Math.sin(theta);
+      const z = RADIUS * (Math.cos(theta) - 1);
+      const rotY = theta * 180 / Math.PI;
+      const cosT = Math.cos(theta);
+      const baseOpacity = Math.max(0, cosT * 1.05);
+      const baseBrightness = 0.45 + 0.55 * Math.max(0, cosT);
+
+      // Hover lerp
+      const isHovered = i === effectiveHover;
+      const targetScale = isHovered ? HOVER_SCALE : 1;
+      const targetZ     = isHovered ? HOVER_Z     : 0;
+      scales[i]  += (targetScale - scales[i])  * LERP;
+      hoverZs[i] += (targetZ     - hoverZs[i]) * LERP;
+
+      const hoverT  = (scales[i] - 1) / (HOVER_SCALE - 1);       // 0 → 1
+      const opacity = baseOpacity + (1 - baseOpacity) * hoverT;
+      const brightness = baseBrightness + (1.05 - baseBrightness) * hoverT;
+
+      card.style.transform =
+        `translate3d(${x}px, 0, ${z + hoverZs[i]}px) rotateY(${rotY}deg) scale(${scales[i]})`;
+      card.style.opacity = opacity;
+      card.style.filter  = `brightness(${brightness})`;
+      card.style.zIndex  = isHovered ? 500 : Math.round(cosT * 100);
+
+      const absT = Math.abs(theta);
+      if (absT < minAbs) { minAbs = absT; newCenter = i; }
+    });
+
+    if (newCenter !== centerIdx) {
+      cards[centerIdx].classList.remove('is-center');
+      cards[newCenter].classList.add('is-center');
+      centerIdx = newCenter;
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // ——————————————— SNAP ———————————————
+  function snapToCard(idx) {
+    const target = -idx * ANGULAR_SPACING;
+    const start  = rotation;
+    let diff = target - start;
+    while (diff > Math.PI)  diff -= 2 * Math.PI;
+    while (diff < -Math.PI) diff += 2 * Math.PI;
+    const end = start + diff;
+    const t0 = performance.now();
+    const token = ++snapToken;
+    snapping = true;
+    const ease = (t) => t < 0.5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    function step(ts) {
+      if (token !== snapToken) return;
+      const t = Math.min(1, (ts - t0) / SNAP_DURATION);
+      rotation = start + (end - start) * ease(t);
+      if (t < 1) requestAnimationFrame(step);
+      else if (token === snapToken) snapping = false;
+    }
+    requestAnimationFrame(step);
+  }
+
+  // ——————————————— HOVER (per-card) ———————————————
+  cards.forEach((card, i) => {
+    card.addEventListener('pointerenter', (e) => {
+      if (dragging) return;
+      if (e.pointerType === 'touch') return;  // no hover for touch
+      if (hoveredIdx !== i) {
+        hoveredIdx = i;
+        updateDescPanel();
+      }
+    });
+    card.addEventListener('pointerleave', () => {
+      if (hoveredIdx === i) {
+        hoveredIdx = -1;
+        updateDescPanel();
+      }
+    });
+  });
+
+  // ——————————————— DRAG + CLICK (hero-wide) ———————————————
+  // Drag anywhere inside .hero rotates the cylinder.
+  // If pointerdown lands on a card and there's no drag, it counts as a click.
+  let dragStartCard = -1;
+
+  hero.addEventListener('pointerdown', (e) => {
+    // Don't hijack nav/admin controls
+    if (e.target.closest('.admin-toggle')) return;
+
+    dragging = true;
+    dragMoved = false;
+    dragPointerId = e.pointerId;
+    dragStartX = e.clientX;
+    dragStartRotation = rotation;
+
+    const cardEl = e.target.closest('.card');
+    dragStartCard = cardEl ? Array.prototype.indexOf.call(cards, cardEl) : -1;
+
+    // Clear hover during drag (pointer capture suppresses enter/leave)
+    if (hoveredIdx !== -1) {
+      hoveredIdx = -1;
+      updateDescPanel();
+    }
+
+    snapToken++;               // cancel any running snap
+    snapping = false;
+    hero.setPointerCapture(e.pointerId);
+    document.body.classList.add('dragging');
+    e.preventDefault();
+  });
+
+  hero.addEventListener('pointermove', (e) => {
+    if (!dragging || e.pointerId !== dragPointerId) return;
+    const dx = e.clientX - dragStartX;
+    if (Math.abs(dx) > CLICK_THRESHOLD) dragMoved = true;
+    rotation = dragStartRotation + dx * DRAG_SENSITIVITY;
+  });
+
+  const endDrag = (e) => {
+    if (!dragging || e.pointerId !== dragPointerId) return;
+    const wasClick = !dragMoved;
+    const startCard = dragStartCard;
+    dragging = false;
+    dragPointerId = null;
+    dragStartCard = -1;
+    document.body.classList.remove('dragging');
+
+    // Re-sync hover based on current cursor position
+    if (e.pointerType !== 'touch') {
+      const elAt = document.elementFromPoint(e.clientX, e.clientY);
+      const cardAt = elAt ? elAt.closest('.card') : null;
+      const newIdx = cardAt ? Array.prototype.indexOf.call(cards, cardAt) : -1;
+      if (newIdx !== hoveredIdx) {
+        hoveredIdx = newIdx;
+        updateDescPanel();
+      }
+    }
+
+    if (wasClick && startCard >= 0) {
+      if (startCard === centerIdx) {
+        window.location.href = `album.html?id=${startCard % ALBUM_COUNT}`;
+      } else {
+        snapToCard(startCard);
+      }
+    }
+  };
+  hero.addEventListener('pointerup', endDrag);
+  hero.addEventListener('pointercancel', endDrag);
+
+  // ——————————————— KEYBOARD NAVIGATION ———————————————
+  document.addEventListener('keydown', (e) => {
+    // only when hero is in viewport / focused area
+    const heroRect = hero.getBoundingClientRect();
+    if (heroRect.bottom < 0 || heroRect.top > window.innerHeight) return;
+    // ignore when typing in inputs
+    const t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA')) return;
+
+    if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const next = (centerIdx - 1 + N) % N;
+      snapToCard(next);
+    } else if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      const next = (centerIdx + 1) % N;
+      snapToCard(next);
+    } else if (e.key === 'Enter' && centerIdx >= 0) {
+      e.preventDefault();
+      window.location.href = `album.html?id=${centerIdx % ALBUM_COUNT}`;
+    }
+  });
+
+  requestAnimationFrame(tick);
+</script>
+
+</body>
+</html>
